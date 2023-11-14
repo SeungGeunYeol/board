@@ -18,3 +18,6 @@ DELIMITER $$
 CALL testDataInsert;
 
 SELECT * FROM board;
+
+DELETE FROM board WHERE id > 120;
+
