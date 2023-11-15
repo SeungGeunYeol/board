@@ -19,7 +19,7 @@
 - 개발 언어 : JAVA 11
 - 개발 환경 : SpringBoot 2.7.17, Jpa(Spring Data JPA), Oauth 2.0
 - 데이터 베이스 : MariaDB
-- 템플릿 엔진 : Thymeleaf
+- 프론트엔드 : JSP
 - 라이브러리 : Lombok
 - 형상관리 툴 : Github
 - 간단 소개 : 웹의 기본적인 게시판을 실습하며 구현한다
