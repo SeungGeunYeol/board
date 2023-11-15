@@ -19,5 +19,5 @@ CALL testDataInsert;
 
 SELECT * FROM board;
 
-DELETE FROM board WHERE id > 120;
+DELETE FROM board WHERE id > 362;
 
