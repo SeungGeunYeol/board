@@ -3,6 +3,10 @@ package com.study.board.controller;
 import com.study.board.entity.Board;
 import com.study.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +23,7 @@ public class BoardController {
     @GetMapping("/board/writeForm") //localhost:8080/board/write
     public String boardWriteForm() {
 
-        return "boardWriteForm";
+        return "board/boardWriteForm";
     }
 
     @PostMapping("/board/writeForm")
@@ -31,15 +35,24 @@ public class BoardController {
 
         model.addAttribute("searchUrl", "/board/list");
 
-        return "message";
+        return "board/message";
     }
 
     @GetMapping("/board/list")
-    public String boardList(Model model) {
+    public String boardList(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
-        model.addAttribute("list", boardService.boardList());
+        Page<Board> list = boardService.boardList(pageable);
 
-        return "boardList";
+        int nowPage = list.getPageable().getPageNumber() + 1;
+        int startPage = Math.max(nowPage - 4, 1);
+        int endPage = Math.min(nowPage + 5, list.getTotalPages());
+
+        model.addAttribute("list", list);
+        model.addAttribute("nowPage", nowPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        return "board/boardList";
     }
 
     @GetMapping("/board/view") // localhost:8080/board/view?id=1
@@ -47,7 +60,7 @@ public class BoardController {
 
         model.addAttribute("board", boardService.boardView(id));
 
-        return "boardView";
+        return "board/boardView";
     }
 
     @GetMapping("/board/delete")
@@ -63,7 +76,7 @@ public class BoardController {
 
         model.addAttribute("board", boardService.boardView(id));
 
-        return "boardModify";
+        return "board/boardModify";
     }
 
     @PostMapping("/board/update/{id}")
