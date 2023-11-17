@@ -1,69 +1,72 @@
 package com.study.board.app.board.service;
 
-import com.study.board.app.board.entity.Board;
+import com.study.board.app.board.dto.BoardDTO;
+import com.study.board.app.board.entity.BoardEntity;
 import com.study.board.app.board.repository.BoardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BoardService {
 
-    @Autowired
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
     // 글 작성 처리
-    public void write(Board board, MultipartFile file) throws Exception {
+    public void save(BoardDTO boardDTO) throws IOException {
 
-        // 유효성 검사 : title 과 content가 null이 아닌지 확인
-        if (board.getTitle() == null || board.getContent() == null) {
-            throw new IllegalArgumentException("Title and content cannot be null");
-        }
-
-        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-
-        UUID uuid = UUID.randomUUID();
-
-        String fileName = uuid + "_" + file.getOriginalFilename();
-
-        File saveFile = new File(projectPath, fileName);
-
-        file.transferTo(saveFile);
-
-        board.setFilename(fileName);
-        board.setFilepath("/files/" + fileName);
-
-        boardRepository.save(board);
+        boardRepository.save(BoardEntity.toSaveEntity(boardDTO));
     }
 
     // 게시글 리스트 처리
-    public Page<Board> boardList(Pageable pageable) {
+    @Transactional(readOnly = true)
+    public List<BoardDTO> findALl() {
 
-        return boardRepository.findAll(pageable);
+        List<BoardEntity> boardEntityList = boardRepository.findAll();
+        ArrayList<BoardDTO> boardDTOList = new ArrayList<>();
+        for (BoardEntity boardEntity : boardEntityList) {
+            boardDTOList.add(BoardDTO.toBoardDTO(boardEntity));
+        }
+        return boardDTOList;
     }
 
     // 특정 게시글 불러오기
-    public Board boardView(Integer id) {
+    @Transactional(readOnly = true)
+    public BoardDTO findById(Long id) {
 
-        return boardRepository.findById(id).get();
+        Optional<BoardEntity> optionalBoardEntity = boardRepository.findById(id);
+
+        if (optionalBoardEntity.isPresent()) {
+            BoardEntity boardEntity = optionalBoardEntity.get();
+            return BoardDTO.toBoardDTO(boardEntity);
+        } else {
+            return null;
+        }
     }
 
     // 특정 게시글 삭제
-    public void boardDelete(Integer id) {
-
+    public void boardDelete(Long id) {
         boardRepository.deleteById(id);
     }
 
-    // 특정 키워드로 게시글 검색
-    public Page<Board> boardSearchList(String searchKeyword, Pageable pageable) {
-
-        return boardRepository.findByTitleContaining(searchKeyword, pageable);
+    public BoardDTO update(BoardDTO boardDTO) {
+        BoardEntity boardEntity = BoardEntity.toUpdateEntity(boardDTO);
+        boardRepository.save(boardEntity);
+        return findById(boardDTO.getBoardIdx());
     }
+
+
+//    // 특정 키워드로 게시글 검색
+//    public Page<BoardEntity> boardSearchList(String searchKeyword, Pageable pageable) {
+//
+//        return boardRepository.findByTitleContaining(searchKeyword, pageable);
+//    }
 
 
 }

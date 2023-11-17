@@ -1,4 +1,5 @@
 spring:
+  # 데이터 베이스 연동 설정
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     username: root
@@ -16,6 +17,13 @@ spring:
       enabled: true
     restart:
       enabled: true
+
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
 
   resources:
     static-locations: classpath:/static/,classpath:/static/image/
