@@ -9,11 +9,11 @@ body {
     width: 100%;
 }
 
-.layout {
-    width : 500px;
-    margin : 0 auto;
-    margin-top : 40px;
+
+.rotate-text{
+    white-space: nowrap;
 }
+
 .layout input {
     width : 100%;
     box-sizing : border-box;

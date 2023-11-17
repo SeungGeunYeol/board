@@ -1,7 +1,7 @@
-package com.study.board.controller;
+package com.study.board.app.board.web;
 
-import com.study.board.entity.Board;
-import com.study.board.service.BoardService;
+import com.study.board.app.board.entity.Board;
+import com.study.board.app.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +35,7 @@ public class BoardController {
 
         model.addAttribute("searchUrl", "/board/list");
 
-        return "board/message";
+        return "board/boardMessage";
     }
 
     @GetMapping("/board/list")

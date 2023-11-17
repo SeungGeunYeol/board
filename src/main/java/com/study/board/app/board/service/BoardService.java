@@ -1,7 +1,7 @@
-package com.study.board.service;
+package com.study.board.app.board.service;
 
-import com.study.board.entity.Board;
-import com.study.board.repository.BoardRepository;
+import com.study.board.app.board.entity.Board;
+import com.study.board.app.board.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +19,11 @@ public class BoardService {
 
     // 글 작성 처리
     public void write(Board board, MultipartFile file) throws Exception {
+
+        // 유효성 검사 : title 과 content가 null이 아닌지 확인
+        if (board.getTitle() == null || board.getContent() == null) {
+            throw new IllegalArgumentException("Title and content cannot be null");
+        }
 
         String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
 

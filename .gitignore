@@ -40,3 +40,6 @@ out/
 *.jpg
 *.png
 *.svg
+
+### static/files ###
+resource/static/files/

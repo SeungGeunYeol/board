@@ -1,18 +1,30 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/mainLayout}">
+      layout:decorate="~{layout/default/mainLayout}">
 <head>
     <meta charset="UTF-8">
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="layout">
-        <form th:action="@{/board/update/{id}(id=${board.id})}" method="post">
-            <label for="title">제목</label>
-            <input type="text" name="title" id="title" th:value="${board.title}">
-            <label for="content">내용</label>
-            <textarea name="content" id="content" th:text="${board.content}"></textarea>
-            <button>수정</button>
+    <div class="container-fluid mt-3" style="width: 60%;">
+        <form class="col-lg-8 mx-auto" th:action="@{/board/update/{id}(id=${board.id})}" method="post"
+              enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="title" class="form-label">제목</label>
+                <input class="form-control" type="text" name="title" id="title" th:value="${board.title}">
+            </div>
+            <div class="mb-3">
+                <label for="content" class="form-label">내용</label>
+                <textarea class="form-control"  name="content" id="content" th:text="${board.content}" style="height: 300px;"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="file" class="form-label">파일</label>
+                <input class="form-control" type="file" name="file">
+            </div>
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-secondary" th:href="@{/board/list}">리스트</a>
+                <button class="btn btn-primary" type="submit">수정</button>
+            </div>
         </form>
     </div>
 </div>

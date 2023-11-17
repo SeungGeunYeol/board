@@ -1,4 +1,4 @@
-package com.study.board.entity;
+package com.study.board.app.board.entity;
 
 import lombok.Getter;
 import lombok.Setter;
