@@ -1,5 +1,6 @@
 package com.study.board.app.system.user.entity;
 
+import com.study.board.app.system.user.dto.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,23 @@ public class UserEntity {
 
     @Column(name = "user_name", length = 50, nullable = false)
     private String userName;
+
+    public static UserEntity toUserEntity(UserDTO userDTO) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserEmail(userDTO.getUserEmail());
+        userEntity.setUserPassword(userDTO.getUserPassword());
+        userEntity.setUserName(userDTO.getUserName());
+        return userEntity;
+    }
+
+    public static UserEntity toUpdateUserEntity(UserDTO userDTO) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserIdx(userDTO.getUserIdx());
+        userEntity.setUserEmail(userDTO.getUserEmail());
+        userEntity.setUserPassword(userDTO.getUserPassword());
+        userEntity.setUserName(userDTO.getUserName());
+        return userEntity;
+    }
 
 //    private String useAt;
 //    private String registDe;

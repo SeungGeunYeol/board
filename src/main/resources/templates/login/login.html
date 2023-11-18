@@ -8,7 +8,7 @@
 <body>
 <div layout:fragment="content">
     <div class="container-fluid mt-3" style="width: 60%;">
-        <form class="col-lg-8 mx-auto" action="/user/insert" method="post">
+        <form class="col-lg-8 mx-auto" action="/user/login" method="post">
             <div class="mb-3">
                 <label for="userEmail" class="form-label">이메일</label>
                 <input type="email" class="form-control" name="userEmail" id="userEmail">
@@ -17,16 +17,11 @@
                 <label for="userPassword" class="form-label">비밀번호</label>
                 <input type="password" class="form-control" name="userPassword" id="userPassword">
             </div>
-            <div class="mb-3">
-                <label for="userName" class="form-label">이름</label>
-                <input class="form-control" type="text" name="userName" id="userName">
-            </div>
             <div class="d-flex">
-                <input class="btn btn-primary" type="submit" value="회원가입">
+                <input class="btn btn-primary" type="submit" value="로그인">
             </div>
         </form>
     </div>
-
 </div>
 </body>
 </html>

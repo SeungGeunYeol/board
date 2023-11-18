@@ -17,18 +17,32 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/board/list">게시판</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">마이페이지</a>
+                <li th:if="${#strings.equals(session.userName,'Admin')}"  class="nav-item">
+                    <a class="nav-link" href="/user/list">유저 리스트</a>
                 </li>
             </ul>
             <div class="d-flex">
-                <button type="button" class="btn btn-dark my-2 my-sm-0">
-                    <a class="nav-link text-light" href="#">로그인</a>
-                </button>
-                <a class="btn btn-dark ml-2" href="/user/insert">회원가입</a>
+                <div th:if="${session.userName != null}">
+                    <div class="btn btn-dark my-2 my-sm-0">
+                        <input type="hidden" id="userIdx" name="userIdx" th:value="${session.userIdx}">
+                        <a href="/user/update" class="nav-link text-light" th:text="${session.userName + ' 님 환영합니다!'}"></a>
+                    </div>
+                    <a class="btn btn-dark ml-2" href="/user/logout">로그아웃</a>
+                </div>
+                <div th:unless="${session.userName != null}">
+                    <button type="button" class="btn btn-dark my-2 my-sm-0">
+                        <a class="nav-link text-light" href="/user/login">로그인</a>
+                    </button>
+                    <a class="btn btn-dark ml-2" href="/user/insert">회원가입</a>
+                </div>
             </div>
 
         </div>
+        <script>
+
+            let user_id = "[[${session.loginEmail}]]";
+
+        </script>
     </div>
 </nav>
 </body>
