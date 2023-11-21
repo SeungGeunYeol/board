@@ -8,7 +8,17 @@
 <body>
 <div layout:fragment="content">
     <div class="container-fluid mt-3" style="width: 60%;">
-        <form class="col-lg-8 mx-auto" action="/board/save" method="post">
+        <form class="col-lg-8 mx-auto" action="/board/save" method="post"  enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="boardWriter" class="form-label">작성자</label>
+                    <input type="text" class="form-control" name="boardWriter" id="boardWriter">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="boardPd" class="form-label">패스워드</label>
+                    <input type="text" class="form-control" name="boardPd" id="boardPd">
+                </div>
+            </div>
             <div class="mb-3">
                 <label for="boardTitle" class="form-label">제목</label>
                 <input type="text" class="form-control" name="boardTitle" id="boardTitle">
@@ -17,10 +27,10 @@
                 <label for="boardContent" class="form-label">내용</label>
                 <textarea class="form-control" name="boardContent" id="boardContent" style="height: 300px;"></textarea>
             </div>
-<!--            <div class="mb-3">-->
-<!--                <label for="file" class="form-label">파일</label>-->
-<!--                <input class="form-control" type="file" name="file">-->
-<!--            </div>-->
+            <div class="mb-3">
+                <label for="boardFile" class="form-label">파일</label>
+                <input class="form-control" type="file" name="boardFile">
+            </div>
             <div class="d-flex justify-content-between">
                 <a class="btn btn-secondary" th:href="@{/board/list}">리스트</a>
                 <button class="btn btn-primary" type="submit">작성</button>

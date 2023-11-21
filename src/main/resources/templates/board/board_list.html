@@ -32,9 +32,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!--                <tr th:if="${endPage < 1}">-->
-                <!--                    <td colspan="2" class="text-center mt-3">검색 결과가 없습니다.</td>-->
-                <!--                </tr>-->
+                <tr th:if="${boardList.totalPages < 1}">
+                    <td colspan="2" class="text-center mt-3">검색 결과가 없습니다.</td>
+                </tr>
                 <tr th:each="board:${boardList}">
                     <td th:text="${board.boardIdx}">1</td>
                     <td>

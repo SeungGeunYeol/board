@@ -15,9 +15,10 @@ import java.time.LocalDate;
 public class BoardDTO {
 
     private Long boardIdx;
-    private String boardWriter;
     private String boardTitle;
     private String boardContent;
+    private String boardWriter;
+    private String boardPd;
     private int boardHits;
     private LocalDate registDe;
     private LocalDate updateDe;
@@ -33,13 +34,29 @@ public class BoardDTO {
         this.boardTitle = boardTitle;
     }
 
-    public static BoardDTO toBoardDTO(Board boardEntity) {
+    public static BoardDTO toBoardDTO(Board board) {
         BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setBoardIdx(boardEntity.getBoardIdx());
-        boardDTO.setBoardTitle(boardEntity.getBoardTitle());
-        boardDTO.setBoardContent(boardEntity.getBoardContent());
-//        boardDTO.setFileName(boardEntity.getFileName());
-//        boardDTO.setFilePath(boardEntity.getFilePath());
+        boardDTO.setBoardIdx(board.getBoardIdx());
+        boardDTO.setBoardWriter(board.getBoardWriter());
+        boardDTO.setBoardPd(board.getBoardPd());
+        boardDTO.setBoardTitle(board.getBoardTitle());
+        boardDTO.setBoardContent(board.getBoardContent());
+        boardDTO.setBoardHits(board.getBoardHits());
+        boardDTO.setRegistDe(board.getRegistDe());
+        boardDTO.setUpdateDe(board.getUpdateDe());
+        if (board.getFileAttached() == 0) {
+            boardDTO.setFileAttached(board.getFileAttached()); // 0
+        } else {
+            boardDTO.setFileAttached(board.getFileAttached()); // 1
+            // 파일 이름을 가져가야 함.
+            // orginalFileName, storedFileName : board_file_table(BoardFileEntity)
+            // join
+            // select * from board_table b, board_file_table bf where b.id=bf.board_id
+            // and where b.id=?
+            boardDTO.setOriginalFileName(board.getBoardFileList().get(0).getOriginalFileName());
+            boardDTO.setStoredFileName(board.getBoardFileList().get(0).getStoredFileName());
+        }
+
         return boardDTO;
     }
 }

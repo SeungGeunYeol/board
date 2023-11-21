@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,16 +25,44 @@ public class Board extends BaseEntity {
     @Column(length = 3000, nullable = false)
     private String boardContent;
 
+    @Column(length = 20, nullable = false)
+    private String boardWriter;
+
+    @Column
+    private String boardPd;
+
+    @Column
+    private int boardHits;
+
 //    @Column
 //    private int boardHits;
+
+    @Column
+    private int fileAttached; // 0 or 1
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<BoardFile> boardFileList = new ArrayList<>();
+
 
     public static Board toSaveEntity(BoardDTO boardDTO) {
         Board boardEntity = new Board();
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContent(boardDTO.getBoardContent());
-//        boardEntity.setBoardHits(0);
-//        boardEntity.setFileName(boardDTO.getFileName());
-//        boardEntity.setFilePath(boardDTO.getFilePath());
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardPd(boardDTO.getBoardPd());
+        boardEntity.setBoardHits(0);
+        boardEntity.setFileAttached(0); // 파일 없음
+        return boardEntity;
+    }
+
+    public static Board toSaveFileEntity(BoardDTO boardDTO) {
+        Board boardEntity = new Board();
+        boardEntity.setBoardTitle(boardDTO.getBoardTitle());
+        boardEntity.setBoardContent(boardDTO.getBoardContent());
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardPd(boardDTO.getBoardPd());
+        boardEntity.setBoardHits(0);
+        boardEntity.setFileAttached(1); // 파일 있음.
         return boardEntity;
     }
 
