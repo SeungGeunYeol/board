@@ -10,6 +10,6 @@ public class MainController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home() {
 
-        return "layout/default/mainLayout";
+        return "redirect:board/list";
     }
 }

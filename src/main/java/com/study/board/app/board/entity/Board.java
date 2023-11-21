@@ -1,6 +1,7 @@
 package com.study.board.app.board.entity;
 
 import com.study.board.app.board.dto.BoardDTO;
+import com.study.board.cmmn.base.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "board_table")
-public class BoardEntity {
+public class Board extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,17 +23,21 @@ public class BoardEntity {
     @Column(length = 3000, nullable = false)
     private String boardContent;
 
-    public static BoardEntity toSaveEntity(BoardDTO boardDTO) {
-        BoardEntity boardEntity = new BoardEntity();
+//    @Column
+//    private int boardHits;
+
+    public static Board toSaveEntity(BoardDTO boardDTO) {
+        Board boardEntity = new Board();
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContent(boardDTO.getBoardContent());
+//        boardEntity.setBoardHits(0);
 //        boardEntity.setFileName(boardDTO.getFileName());
 //        boardEntity.setFilePath(boardDTO.getFilePath());
         return boardEntity;
     }
 
-    public static BoardEntity toUpdateEntity(BoardDTO boardDTO) {
-        BoardEntity boardEntity = new BoardEntity();
+    public static Board toUpdateEntity(BoardDTO boardDTO) {
+        Board boardEntity = new Board();
         boardEntity.setBoardIdx(boardDTO.getBoardIdx());
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContent(boardDTO.getBoardContent());

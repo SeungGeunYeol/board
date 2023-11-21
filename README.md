@@ -14,12 +14,20 @@
 - 개발 인원 : 1명
 - 주요 기능 : <br>
     ° 게시판 : CRDU 기능, 페이징 및 검색 처리, 파일 업로드 검색기능 <br>
-    ° 사용자 : OAuth 2.0 구글, 네이버 로그인, 회원 정보 수정, 유효성 검사 및 중복 검사 <br>
     ° 댓글 : CRUD 기능
 - 개발 언어 : JAVA 11
-- 개발 환경 : SpringBoot 2.7.17, Jpa(Spring Data JPA), Oauth 2.0
+- 개발 환경 : SpringBoot 2.7.17, Jpa(Spring Data JPA)
 - 데이터 베이스 : MariaDB
 - 프론트엔드 : JSP
 - 라이브러리 : Lombok
 - 형상관리 툴 : Github
 - 간단 소개 : 웹의 기본적인 게시판을 실습하며 구현한다
+
+### 📖 프로젝트 주요 기능
+1. 게시판 기능
+   1) 글쓰기 (/board/save)
+   2) 글목록 (/board/list)
+      - 페이지 처리 (/board/list?page=?)
+   3) 글조회 (/board/view/{id})
+   4) 글수정 (/board/update/{id})
+   5) 글삭제 (/board/delete/{id})
