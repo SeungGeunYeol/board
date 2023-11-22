@@ -69,10 +69,11 @@ public class Board extends BaseEntity {
     public static Board toUpdateEntity(BoardDTO boardDTO) {
         Board boardEntity = new Board();
         boardEntity.setBoardIdx(boardDTO.getBoardIdx());
+        boardEntity.setBoardWriter(boardDTO.getBoardWriter());
+        boardEntity.setBoardPd(boardDTO.getBoardPd());
         boardEntity.setBoardTitle(boardDTO.getBoardTitle());
         boardEntity.setBoardContent(boardDTO.getBoardContent());
-//        boardEntity.setFileName(boardDTO.getFileName());
-//        boardEntity.setFilePath(boardDTO.getFilePath());
+        boardEntity.setBoardHits(boardDTO.getBoardHits());
         return boardEntity;
     }
 }

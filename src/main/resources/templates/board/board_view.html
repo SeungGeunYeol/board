@@ -21,7 +21,7 @@
                     <h4 th:text="${board.boardWriter}"></h4>
                 </div>
                 <div class="mn_hd col-md-6 d-flex justify-content-end align-items-center">
-                    <span>조회 수 <b>0</b></span>
+                    <span>조회 수 <b th:text="${board.boardHits}"></b></span>
                     <span>추천 수 <b>0</b></span>
                     <span>댓글 <b>0</b></span>
                 </div>
@@ -30,8 +30,8 @@
                 <p th:text="${board.boardContent}"></p>
             </div>
             <div class="mn_mn mb-3" th:if="${board.fileAttached == 1}">
-                <div class="text-left">
-                    <img th:src="@{|/upload/${board.storedFileName}|}" alt="" class="img-fluid">
+                <div class="text-left" th:each="fileName : ${board.storedFileName]">
+                    <img th:src="@{|/upload/${fileName}|}" alt="" class="img-fluid">
                 </div>
             </div>
 

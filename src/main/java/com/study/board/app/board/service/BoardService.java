@@ -43,17 +43,22 @@ public class BoardService {
                 6. board_table에 해당 데이터 save처리
                 7. board_file_talbe에 해당 데이터 save 처리
              */
-            MultipartFile boardFile = boardDTO.getBoardFile(); // 1
-            String originalFileName = boardFile.getOriginalFilename(); // 2
-            String storedFileName = System.currentTimeMillis() + "_" + originalFileName; // 3
-            String savePath = "C:\\workspace_spring_boot_img\\" + storedFileName; // 4
 
-            boardFile.transferTo(new File(savePath)); // 5
             Long saveId = boardRepository.save(Board.toSaveFileEntity(boardDTO)).getBoardIdx(); //6
             Board board = boardRepository.findById(saveId).get();
+            for (MultipartFile boardFile : boardDTO.getBoardFile()) {
+//                MultipartFile boardFile = boardDTO.getBoardFile(); // 1
+                String originalFileName = boardFile.getOriginalFilename(); // 2
+                String storedFileName = System.currentTimeMillis() + "_" + originalFileName; // 3
+                String savePath = "C:\\workspace_spring_boot_img\\" + storedFileName; // 4
 
-            BoardFile boardFileEntity = BoardFile.toBoardFile(board, originalFileName, storedFileName);
-            boardFileRepository.save(boardFileEntity); // 7
+                boardFile.transferTo(new File(savePath)); // 5
+
+
+                BoardFile boardFileEntity = BoardFile.toBoardFile(board, originalFileName, storedFileName);
+                boardFileRepository.save(boardFileEntity); // 7
+            }
+
         }
     }
 
@@ -67,7 +72,7 @@ public class BoardService {
 
         Page<Board> boardEntities = boardRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "boardIdx")));
 
-        return boardEntities.map(board -> new BoardDTO(board.getBoardIdx(), board.getBoardTitle()));
+        return boardEntities.map(board -> new BoardDTO(board.getBoardIdx(), board.getBoardWriter(), board.getBoardTitle(), board.getBoardHits(), board.getRegistDe()));
     }
 
     // 특정 게시글 불러오기
@@ -96,8 +101,8 @@ public class BoardService {
         return findById(boardDTO.getBoardIdx());
     }
 
-//    @Transactional
-//    public void updateHits(Long id) {
-//        boardRepository.updateHits(id);
-//    }
+    @Transactional
+    public void updateHits(Long id) {
+        boardRepository.updateHits(id);
+    }
 }

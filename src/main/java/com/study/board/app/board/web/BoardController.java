@@ -54,7 +54,7 @@ public class BoardController {
     public String boardView(Model model, @PathVariable Long id) {
 
         //  해당 게시글의 조회수를 하나 올리고 게시글 데이터를 가져와서 board_view.html 에 출력
-//        boardService.updateHits(id);
+        boardService.updateHits(id);
 
         model.addAttribute("board", boardService.findById(id));
 
