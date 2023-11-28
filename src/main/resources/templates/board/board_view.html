@@ -3,11 +3,12 @@
       layout:decorate="~{layout/default/mainLayout}">>
 <head>
     <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
     <div class="container-fluid mt-3" style="width: 60%;">
-        <div class="col-lg-8 mx-auto">
+        <div class="mx-auto">
             <div class="row border-bottom border-secondary m-0 mt-3">
                 <div class="col-md-6 p-0">
                     <h1 th:text="${board.boardTitle}">제목 입니다.</h1>
@@ -22,8 +23,8 @@
                 </div>
                 <div class="mn_hd col-md-6 d-flex justify-content-end align-items-center">
                     <span>조회 수 <b th:text="${board.boardHits}"></b></span>
-                    <span>추천 수 <b>0</b></span>
-                    <span>댓글 <b>0</b></span>
+                    <!--                    <span>추천 수 <b>0</b></span>-->
+                    <span>댓글 <b th:text="${#lists.size(commentList)}"></b></span>
                 </div>
             </div>
             <div class="mn_mn mb-3">
@@ -40,7 +41,102 @@
                 <a class="btn btn-secondary" th:href="@{|/board/delete/${board.boardIdx}|}">글 삭제</a>
             </div>
         </div>
+
+        <div class="mb-3 mt-3 cm_cm rounded border d-flex align-items-center">
+            <p>댓글 <span th:text="${#lists.size(commentList)}"></span> 개</p>
+        </div>
+
+        <!-- 댓글 출력 -->
+        <div id="comment-list" class="mt-3">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">댓글번호</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">내용</th>
+                    <th scope="col">작성시간</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="comment: ${commentList}">
+                    <td th:text="${comment.id}"></td>
+                    <td th:text="${comment.commentWriter}"></td>
+                    <td th:text="${comment.commentContents}"></td>
+                    <td th:text="${comment.registDe}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- 댓글 작성 -->
+        <div id="comment-write" class="container mt-4 p-4 rounded border">
+            <form>
+                <div class="mb-4 d-flex align-items-center justify-content-between">
+                    <div class="text-first">
+                        <input type="text" class="form-control" id="commentWriter" placeholder="작성자">
+                    </div>
+                    <h4 class="mb-0 text-end">댓글 쓰기</h4>
+                </div>
+                <div class="mb-3 d-flex">
+                    <input type="text" class="form-control me-2" id="commentContents" placeholder="댓글 작성">
+                    <button type="button" class="btn btn-primary" id="comment-write-btn" onclick="commentWrite()"
+                            style="white-space: nowrap;">등록
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
     </div>
 </div>
 </body>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        const commentWrite = () => {
+            const writer = document.getElementById("commentWriter").value;
+            const contents = document.getElementById("commentContents").value;
+
+            const id = [[${board.boardIdx}]];
+
+            $.ajax({
+                /*
+                    요청 방식 : post
+                    요청 주소 : /comment/save
+                    요청 date : 작성자, 내용, 게시글 번호
+                */
+                type : "post",
+                url : "/comment/save",
+                data: {
+                   "commentWriter": writer,
+                   "commentContents": contents,
+                   "boardIdx": id
+                },
+                success: function (res) {
+                    console.log("요청성공", res);
+                    let output = "<table class='table table-striped'>";
+                    output += "<thead class='thead-dark'><tr><th>댓글번호</th><th>작성자</th><th>내용</th><th>작성시간</th></tr></thead>";
+                    output += "<tbody>";
+                    for (let i in res) {
+                        output += "<tr>";
+                        output += "<td>" + res[i].id + "</td>";
+                        output += "<td>" + res[i].commentWriter + "</td>";
+                        output += "<td>" + res[i].commentContents + "</td>";
+                        output += "<td>" + res[i].registDe + "</td>";
+                        output += "</tr>";
+                    }
+                    output += "</tbody></table>";
+
+                    document.getElementById('comment-list').innerHTML = output;
+                    document.getElementById('commentWriter').value = '';
+                    document.getElementById('commentContents').value = '';
+                },
+                error: function (err) {
+                   console.log("요청실패", err);
+                }
+            });
+        }
+
+    </script>
+</th:block>
 </html>

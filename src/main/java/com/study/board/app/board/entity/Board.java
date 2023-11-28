@@ -40,9 +40,13 @@ public class Board extends BaseEntity {
     @Column
     private int fileAttached; // 0 or 1
 
+    /* Board:BoardFile = 1:N */
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<BoardFile> boardFileList = new ArrayList<>();
 
+    /* Board:Comment = 1:N */
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Comment> commentList = new ArrayList<>();
 
     public static Board toSaveEntity(BoardDTO boardDTO) {
         Board boardEntity = new Board();

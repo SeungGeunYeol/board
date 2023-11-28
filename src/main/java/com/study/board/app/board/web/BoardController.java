@@ -2,6 +2,7 @@ package com.study.board.app.board.web;
 
 import com.study.board.app.board.dto.BoardDTO;
 import com.study.board.app.board.service.BoardService;
+import com.study.board.app.board.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +19,7 @@ import java.io.IOException;
 public class BoardController {
 
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/save") //localhost:8080/board/save
     public String boardWriteForm() {
@@ -56,6 +58,7 @@ public class BoardController {
         //  해당 게시글의 조회수를 하나 올리고 게시글 데이터를 가져와서 board_view.html 에 출력
         boardService.updateHits(id);
 
+        model.addAttribute("commentList", commentService.findAll(id));
         model.addAttribute("board", boardService.findById(id));
 
         return "board/board_view";

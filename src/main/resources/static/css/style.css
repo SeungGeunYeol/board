@@ -41,3 +41,20 @@ body {
 .mn_mn {
     margin-bottom : 30px;
 }
+.cm_cm  {
+    padding : 10px;
+}
+.cm_cm p {
+    margin : 0;
+}
+.cm_cn p {
+    pont-size : 15px;
+}
+.cm_mn {
+    padding-left : 15px;
+}
+
+.cm_wr p {
+    font-size : 12px;
+    font-weight: bold;
+}
