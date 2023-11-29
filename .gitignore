@@ -42,4 +42,4 @@ out/
 *.svg
 
 ### static/files ###
-resource/static/files/
+resource/static/files/**
