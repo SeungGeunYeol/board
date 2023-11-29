@@ -1,35 +1,29 @@
 package com.study.board.cmmn.base.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EntityListeners;
+import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 public class BaseEntity {
 
-    @CreatedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @CreationTimestamp
     @Column(updatable = false)
-    private String registDe;
+    private LocalDateTime registDe;
 
-    @LastModifiedDate
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+    @UpdateTimestamp
     @Column(insertable = false)
-    private String updateDe;
-
-    @PrePersist
-    public void onPrePersist(){
-        this.registDe = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-        this.updateDe = this.registDe;
-    }
-    @PreUpdate
-    public void onPreUpdate(){
-        this.updateDe = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm"));
-    }
+    private LocalDateTime updateDe;
 
 }

@@ -14,68 +14,74 @@
                     <div class="col-lg-9 col-md-12 d-flex align-items-center">
                         <a class="btn btn-primary rotate-text" type="submit" th:href="@{/board/save}">글쓰기</a>
                     </div>
+
+                    <!-- 검색 기능 -->
                     <!--                    <div class="col-lg-3 col-md-12">-->
                     <!--                        <form class="d-flex justify-content-end" th:action="@{/board/list}" method="get">-->
                     <!--                            <input class="form-control me-sm-1" type="text" name="searchKeyword" placeholder="검색">-->
                     <!--                            <button class="btn btn-primary rotate-text" type="submit">검색</button>-->
                     <!--                        </form>-->
                     <!--                    </div>-->
+
                 </div>
             </div>
         </div>
         <div class="mt-3">
             <table class="table table-hover mx-auto text-center ">
                 <thead>
-                    <tr class="table-dark">
-                        <th style="width: 20%">글 번호</th>
-                        <th style="width: 70%">제목</th>
-                        <th style="width: 10%">조회 수</th>
-                    </tr>
+                <tr class="table-dark">
+                    <th style="width: 20%">글 번호</th>
+                    <th style="width: 70%">제목</th>
+                    <th style="width: 10%">조회 수</th>
+                </tr>
                 </thead>
                 <tbody class="text-center">
-                    <tr th:if="${boardList.totalPages < 1}">
-                        <td colspan="2" class="text-center mt-3">검색 결과가 없습니다.</td>
-                    </tr>
-                    <tr th:each="board:${boardList}" class="align-items-center">
-                        <td class="align-middle" th:text="${board.boardIdx}"></td>
-                        <td class="align-middle">
-                            <a th:text="${board.boardTitle}" th:href="@{|/board/view/${board.boardIdx}|}"></a>
-                        </td>
-                        <td class="align-middle" th:text="${board.boardHits}"></td>
-                    </tr>
+                <tr th:if="${boardList.totalPages < 1}">
+                    <td colspan="3" class="text-center mt-3">검색 결과가 없습니다.</td>
+                </tr>
+                <tr th:each="board:${boardList}" class="align-items-center">
+                    <td class="align-middle" th:text="${board.boardIdx}"></td>
+                    <td class="align-middle">
+                        <a class="text-decoration-none" th:text="${board.boardTitle}" th:href="@{|/board/view/${board.boardIdx}|}"></a>
+                    </td>
+                    <td class="align-middle" th:text="${board.boardHits}"></td>
+                </tr>
                 </tbody>
             </table>
         </div>
-        <div class="d-flex justify-content-center mt-3">
+
+        <div th:unless="${boardList.totalPages < 1}" class="d-flex justify-content-center mt-3">
             <!-- 처음 페이지 -->
-            <a th:href="@{/board/list(page=1)}" class="btn btn-outline-primary">
+            <a th:href="@{/board/list(page=1)}" class="btn btn-outline-dark">
                 <i class="fas fa-step-backward"></i>
             </a>
 
             <!-- 이전 페이지 -->
             <a th:href="${boardList.first} ? '#' : @{/board/list(page=${boardList.number})}"
-               class="btn btn-outline-primary">이전</a>
+               class="btn btn-outline-dark">이전</a>
 
             <!-- 페이지 숫자들 -->
             <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
                 <!-- 현재 페이지 -->
-                <span th:if="${page == boardList.number + 1}" class="btn btn-primary" disabled th:text="${page}"></span>
+                <span th:if="${page == boardList.number + 1}" class="btn btn-dark" disabled th:text="${page}"></span>
 
-                <!-- 다른 페이지들 -->
+                        <!-- 다른 페이지들 -->
                 <span th:unless="${page == boardList.number + 1}">
-                    <a th:href="@{/board/list(page=${page})}" class="btn btn-outline-primary" th:text="${page}"></a>
+                    <a th:href="@{/board/list(page=${page})}" class="btn btn-outline-dark" th:text="${page}"></a>
                 </span>
             </span>
 
             <!-- 다음 페이지 -->
             <a th:href="${boardList.last} ? '#' : @{/board/list(page=${boardList.number + 2})}"
-               class="btn btn-outline-primary">다음</a>
+               class="btn btn-outline-dark">다음</a>
 
             <!-- 마지막 페이지 -->
-            <a th:href="@{/board/list(page=${boardList.totalPages})}" class="btn btn-outline-primary">
+            <a th:href="@{/board/list(page=${boardList.totalPages})}" class="btn btn-outline-dark">
                 <i class="fas fa-step-forward"></i>
             </a>
         </div>
+
+
 
     </div>
 </div>

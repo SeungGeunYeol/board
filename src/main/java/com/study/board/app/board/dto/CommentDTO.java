@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -13,7 +15,7 @@ public class CommentDTO {
     private String commentWriter;
     private String commentContents;
     private Long boardIdx;
-    private String registDe;
+    private LocalDateTime registDe;
 
     public static CommentDTO toCommentDTO(Comment comment, Long boardIdx) {
         CommentDTO commentDTO = new CommentDTO();

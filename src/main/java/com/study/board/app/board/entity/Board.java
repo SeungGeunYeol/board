@@ -34,9 +34,6 @@ public class Board extends BaseEntity {
     @Column
     private int boardHits;
 
-//    @Column
-//    private int boardHits;
-
     @Column
     private int fileAttached; // 0 or 1
 

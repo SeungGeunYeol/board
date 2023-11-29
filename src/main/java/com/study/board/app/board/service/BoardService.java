@@ -46,18 +46,18 @@ public class BoardService {
 
             Long saveId = boardRepository.save(Board.toSaveFileEntity(boardDTO)).getBoardIdx(); //6
             Board board = boardRepository.findById(saveId).get();
-            for (MultipartFile boardFile : boardDTO.getBoardFile()) {
-//                MultipartFile boardFile = boardDTO.getBoardFile(); // 1
-                String originalFileName = boardFile.getOriginalFilename(); // 2
-                String storedFileName = System.currentTimeMillis() + "_" + originalFileName; // 3
-                String savePath = "C:\\workspace_spring_boot_img\\" + storedFileName; // 4
 
-                boardFile.transferTo(new File(savePath)); // 5
+            MultipartFile boardFile = boardDTO.getBoardFile(); // 1
+            String originalFileName = boardFile.getOriginalFilename(); // 2
+            String storedFileName = System.currentTimeMillis() + "_" + originalFileName; // 3
+            String savePath = "C:\\workspace_spring_boot_img\\" + storedFileName; // 4
+
+            boardFile.transferTo(new File(savePath)); // 5
 
 
-                BoardFile boardFileEntity = BoardFile.toBoardFile(board, originalFileName, storedFileName);
-                boardFileRepository.save(boardFileEntity); // 7
-            }
+            BoardFile boardFileEntity = BoardFile.toBoardFile(board, originalFileName, storedFileName);
+            boardFileRepository.save(boardFileEntity); // 7
+
 
         }
     }

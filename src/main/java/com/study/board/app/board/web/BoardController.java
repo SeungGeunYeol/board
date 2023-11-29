@@ -49,6 +49,7 @@ public class BoardController {
         model.addAttribute("boardList", boardList);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+
         return "board/board_list";
     }
 
@@ -86,7 +87,7 @@ public class BoardController {
         BoardDTO board = boardService.update(boardDTO);
         model.addAttribute("board", board);
 
-        return "board/board_view";
+        return "redirect:/board/view/" + boardDTO.getBoardIdx();
     }
 
 }
