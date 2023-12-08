@@ -31,3 +31,5 @@
    3) 글조회 (/board/view/{id})
    4) 글수정 (/board/update/{id})
    5) 글삭제 (/board/delete/{id})
+2. 댓글 기능
+   1) 댓글 쓰기 (/comment/save)
